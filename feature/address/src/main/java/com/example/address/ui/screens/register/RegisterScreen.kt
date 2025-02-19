@@ -10,21 +10,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.address.domain.model.RegisterData
+import com.example.ui.component.ShowToast
 
 @Composable
 fun RegisterScreen(
@@ -32,60 +31,95 @@ fun RegisterScreen(
     registerState: RegisterState,
     navigateToAddressResult: () -> Unit
 ) {
-    var firstName by remember { mutableStateOf("") }
-    var lastName by remember { mutableStateOf("") }
-    var mobilePhone by remember { mutableStateOf("") }
-    var homePhone by remember { mutableStateOf("") }
-    var address by remember { mutableStateOf("") }
-    var selectedGender by remember { mutableStateOf("Male") }
-    var lat by remember { mutableDoubleStateOf(0.0) }
-    var lang by remember { mutableDoubleStateOf(0.0) }
 
+    val context = LocalContext.current
+    if (registerState.hasRegistered) {
+        ShowToast(context, "Registered")
+        registerUiEvent(RegisterUiEvent.HasRegisteredMessageDisplayed)
+    }
+
+    if (registerState.errorMessage.isNotEmpty()) {
+        ShowToast(context, "${registerState.errorMessage} ${registerState.errorCode}")
+        registerUiEvent(RegisterUiEvent.HasErrorMessageDisplayed)
+    }
     Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             OutlinedTextField(
-                value = firstName,
-                onValueChange = { firstName = it },
+                value = registerState.firstNameInput,
+                onValueChange = {
+                    registerUiEvent(RegisterUiEvent.OnFirstNameChanged(it))
+                },
                 label = { Text("First Name") },
                 modifier = Modifier.fillMaxWidth()
             )
 
             OutlinedTextField(
-                value = lastName,
-                onValueChange = { lastName = it },
+                value = registerState.lastNameInput,
+                onValueChange = {
+                    registerUiEvent(RegisterUiEvent.OnLastNameChanged(it))
+                },
                 label = { Text("Last Name") },
                 modifier = Modifier.fillMaxWidth()
             )
 
             OutlinedTextField(
-                value = mobilePhone,
-                onValueChange = { mobilePhone = it },
+                value = registerState.mobileInput,
+                onValueChange = {
+                    registerUiEvent(RegisterUiEvent.OnMobileChanged(it))
+                },
                 label = { Text("Mobile Phone") },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
                 modifier = Modifier.fillMaxWidth()
             )
 
             OutlinedTextField(
-                value = homePhone,
-                onValueChange = { homePhone = it },
+                value = registerState.phoneNumberInput,
+                onValueChange = {
+                    registerUiEvent(RegisterUiEvent.OnPhoneNumberChanged(it))
+                },
                 label = { Text("Home Phone") },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
                 modifier = Modifier.fillMaxWidth()
             )
 
             OutlinedTextField(
-                value = address,
-                onValueChange = { address = it },
+                value = registerState.addressInput,
+                onValueChange = {
+                    registerUiEvent(RegisterUiEvent.OnAddressChanged(it))
+                },
                 label = { Text("Address") },
                 modifier = Modifier.fillMaxWidth()
             )
 
+            Button(
+                enabled = !registerState.isLoading,
+                content = {
+                    Text("Register")
+                },
+                onClick = {
+                    registerUiEvent(
+                        RegisterUiEvent.OnRegisterClicked(
+                            registerData = RegisterData(
+                                firstName = registerState.firstNameInput,
+                                lastName = registerState.lastNameInput,
+                                address = registerState.addressInput,
+                                mobileNumber = registerState.mobileInput,
+                                phoneNumber = registerState.phoneNumberInput,
+                                lat = registerState.lat,
+                                lng = registerState.lng,
+                                gender = registerState.genderType
+                            )
+                        )
+                    )
+                }
+            )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -94,8 +128,10 @@ fun RegisterScreen(
                 listOf("Male", "Female").forEach { gender ->
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(
-                            selected = selectedGender == gender,
-                            onClick = { selectedGender = gender }
+                            selected = registerState.genderType == gender,
+                            onClick = {
+                                registerUiEvent(RegisterUiEvent.OnGenderTypeChanged(gender))
+                            }
                         )
                         Text(text = gender)
                     }

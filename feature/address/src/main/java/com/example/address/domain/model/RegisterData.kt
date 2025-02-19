@@ -6,6 +6,7 @@ data class RegisterData(
     val lat: Double? = null,
     val lng: Double? = null,
     val mobileNumber: String,
-    val homeNumber: String,
-    val address: String
+    val phoneNumber: String,
+    val address: String,
+    val gender: String
 )

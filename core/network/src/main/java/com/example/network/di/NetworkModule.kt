@@ -1,13 +1,12 @@
 package com.example.network.di
 
-import android.content.Context
 import com.skydoves.retrofit.adapters.result.ResultCallAdapterFactory
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -39,12 +38,16 @@ object NetworkModule {
     }
 
     @Provides
-    fun provideAuthInterceptor(@ApplicationContext context: Context): Interceptor {
+    fun provideAuthInterceptor(): Interceptor {
         return Interceptor { chain ->
             val request = chain.request()
-            val requestBuilder = request.newBuilder()
-            val response = chain.proceed(requestBuilder.build())
-            return@Interceptor response
+            val credentials = Credentials.basic(username = "09822222222", password = "Sana12345678")
+            val newRequest = request.newBuilder()
+                .header("Content-Type", "application/json")
+                .header("Authorization", credentials)
+                .build()
+
+            return@Interceptor chain.proceed(newRequest)
         }
     }
 
