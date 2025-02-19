@@ -16,9 +16,9 @@ local.properties
 /.idea/misc.xml
 /app/build
 .idea
-/core/common/build
-/core/network/build
 /core/ui/build
+/core/network/build
+/feature/address/build
 *.apk
 *.ap_
 *.aab
