@@ -7,7 +7,7 @@ object AddressScreensGraph {
     data object Register
 
     @Serializable
-    data object AddressResult
+    data object Addresses
 }
 
 @Serializable
@@ -18,7 +18,7 @@ sealed class AddressScreens<T>(val route: T) {
     )
 
     @Serializable
-    data object AddressResult : AddressScreens<AddressScreensGraph.AddressResult>(
-        route = AddressScreensGraph.AddressResult,
+    data object Addresses : AddressScreens<AddressScreensGraph.Addresses>(
+        route = AddressScreensGraph.Addresses,
     )
 }

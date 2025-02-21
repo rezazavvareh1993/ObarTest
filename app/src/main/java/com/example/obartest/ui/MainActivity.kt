@@ -1,5 +1,6 @@
 package com.example.obartest.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.example.address.util.DEFAULT_APP_LOCALE
+import com.example.address.util.LocaleManager
 import com.example.obartest.ui.navgraph.RootNavGraph
 import com.example.obartest.ui.theme.ObarTestTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,5 +32,9 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+    override fun attachBaseContext(newBase: Context?) {
+        val updatedContext = LocaleManager.setLocale(newBase, DEFAULT_APP_LOCALE)
+        super.attachBaseContext(updatedContext)
     }
 }

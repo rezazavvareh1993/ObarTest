@@ -1,5 +1,7 @@
 package com.example.address.ui.screens.register
 
+import com.google.android.gms.maps.model.LatLng
+
 data class RegisterState(
     val errorMessage: String = "",
     val errorCode: Int = -1,
@@ -10,8 +12,8 @@ data class RegisterState(
     val addressInput: String = "",
     val mobileInput: String = "",
     val phoneNumberInput: String = "",
-    val genderType: String = "",
-    val lat: Double = 0.0,
+    val genderType: String = "Male",
+    val locationSelected: LatLng = LatLng(0.0, 0.0),
     val lng: Double = 0.0,
     val hasRegistered: Boolean = false,
 )

@@ -28,7 +28,8 @@ class AddressesResponseMapper @Inject constructor() {
             AddressItemData(
                 firstName = addressItem.first_name,
                 lastName = addressItem.last_name,
-                address = addressItem.address
+                address = addressItem.address,
+                mobile = addressItem.coordinate_mobile
             )
         }
         return GetAddressesNetworkState.Success(data = addressesData)

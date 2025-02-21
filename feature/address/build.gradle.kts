@@ -44,10 +44,13 @@ dependencies {
     implementation(libs.moshi)
 
     //Map
+    implementation(libs.play.services.maps)
     implementation(libs.maps.compose)
 
+    //Modules
     implementation(projects.core.network)
     implementation(projects.core.ui)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

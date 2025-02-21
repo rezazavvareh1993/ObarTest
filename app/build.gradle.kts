@@ -55,12 +55,8 @@ android {
 
 dependencies {
 
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-
-    // SystemUiController
-    implementation(libs.accompanist.systemuicontroller)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -70,9 +66,6 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.ui.tooling)
-
-    //Map
-    implementation("com.google.android.gms:play-services-maps:18.2.0")
 
     //Modules
     implementation(projects.core.network)

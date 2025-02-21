@@ -7,6 +7,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.example.address.ui.screens.addressresult.AddressesScreen
+import com.example.address.ui.screens.addressresult.AddressesViewModel
 import com.example.address.ui.screens.register.RegisterScreen
 import com.example.address.ui.screens.register.RegisterViewModel
 import com.example.ui.graphroutes.GraphRoutes
@@ -25,7 +27,20 @@ fun NavGraphBuilder.addressNavGraph(
                 registerUiEvent = registerUiEvent,
                 registerState = registerState,
                 navigateToAddressResult = {
-                    navController.navigate(AddressScreens.AddressResult.route)
+                    navController.navigate(AddressScreens.Addresses.route)
+                },
+            )
+        }
+
+        composable<AddressScreensGraph.Addresses> {
+            val viewModel = hiltViewModel<AddressesViewModel>()
+            val addressesUiEvent = viewModel::onEvent
+            val addressesState by viewModel.addressesState.collectAsStateWithLifecycle()
+            AddressesScreen (
+                addressesUiEvent = addressesUiEvent,
+                addressesState = addressesState,
+                onBackClicked = {
+                    navController.popBackStack()
                 },
             )
         }

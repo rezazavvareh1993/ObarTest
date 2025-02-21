@@ -24,6 +24,7 @@ jetbrainsKotlinJvm = "1.9.0"
 hilt = "2.52"
 lifecycleProcess = "2.8.7"
 mapsCompose = "2.14.0"
+playServicesMaps = "19.1.0"
 retrofit = "2.11.0"
 navigationCompose = "2.8.4"
 okhttp = "4.12.0"
@@ -91,6 +92,7 @@ moshi-codegen = {group= "com.squareup.moshi", name = "moshi-kotlin-codegen", ver
 glide-compose = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glideComposeVerions" }
 glide-okhttp3-integration = { group = "com.github.bumptech.glide", name = "okhttp3-integration", version.ref = "glideVersion" }
 glide-ksp = { module = "com.github.bumptech.glide:ksp", version.ref = "glideVersion" }
+play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
 retrofit-result-adapter = { group = "com.github.skydoves", name = "retrofit-adapters-result", version.ref = "retrofitResultAdapterVersion" }
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompatVersion" }

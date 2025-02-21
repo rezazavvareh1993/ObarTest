@@ -42,6 +42,9 @@ class RegisterViewModel @Inject constructor(val registerUseCase: RegisterUseCase
 
             is RegisterUiEvent.HasRegisteredMessageDisplayed ->
                 mRegisterState.update { it.copy(hasRegistered = false) }
+
+            is RegisterUiEvent.OnLatLngChanged ->
+                mRegisterState.update { it.copy(locationSelected = event.newLatLng) }
         }
     }
 
