@@ -12,6 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -45,4 +48,16 @@ fun ObarToolbar(
                 onTextButtonClicked()
             })
     }
+}
+
+@PreviewFontScale
+@PreviewScreenSizes
+@PreviewLightDark
+@Composable
+fun ObarToolbarPreview() {
+    ObarToolbar(
+        title = "Test",
+        textButtonTitle = "TextButton",
+        onTextButtonClicked = {}
+    )
 }

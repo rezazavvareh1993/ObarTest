@@ -26,6 +26,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import com.example.address.R
 import com.example.address.domain.model.RegisterData
@@ -249,3 +252,34 @@ private fun checkValidationInputs(registerState: RegisterState): Boolean =
     registerState.firstNameInput.isNotEmpty() && registerState.lastNameInput.isNotEmpty() &&
             registerState.addressInput.isNotEmpty() && registerState.mobileNumberInfo.mobileValidation.isValidMobileNumber &&
             registerState.phoneNumberInput.phoneNumberValidation.isValidPhoneNumber
+
+
+@PreviewFontScale
+@PreviewScreenSizes
+@PreviewLightDark
+@Composable
+fun RegisterScreenPreview() {
+    RegisterScreen(
+        registerUiEvent = {},
+        registerState = RegisterState(
+            firstNameInput = "Ali",
+            lastNameInput = "Rezaei",
+            addressInput = "Tehran, Iran",
+            mobileNumberInfo = MobileInputInfo(
+                mobileNumber = "09123456789",
+                mobileValidation = MobileValidation(
+                    isShowErrorMessage = false,
+                    isValidMobileNumber = true
+                )
+            ),
+            phoneNumberInput = PhoneInputInfo(
+                phoneNumber = "02112345678",
+                phoneNumberValidation = PhoneValidation(
+                    isShowErrorMessage = false,
+                    isValidPhoneNumber = true
+                )
+            ),
+        ),
+        navigateToAddressResult = {}
+    )
+}

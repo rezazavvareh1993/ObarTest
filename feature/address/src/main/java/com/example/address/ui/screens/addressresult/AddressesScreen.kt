@@ -20,8 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import com.example.address.R
+import com.example.address.domain.model.AddressItemData
 import com.example.address.ui.screens.addressresult.component.AddressItemComponent
 import com.example.address.util.handleErrorMessages
 import com.example.ui.component.ObarToolbar
@@ -96,4 +100,36 @@ fun AddressesScreen(
             }
         }
     }
+}
+
+@PreviewFontScale
+@PreviewScreenSizes
+@PreviewLightDark
+@Composable
+fun AddressesScreenPreview() {
+    AddressesScreen(
+        addressesUiEvent = {},
+        addressesState = AddressesState(
+            errorMessage = "",
+            errorType = null,
+            isShowErrorMessage = false,
+            isLoading = false,
+            isRefreshing = false,
+            addressesData = listOf(
+                AddressItemData(
+                    firstName = "Ali",
+                    lastName = "Rezaei",
+                    address = "Tehran, Iran",
+                    mobile = "09123456789"
+                ),
+                AddressItemData(
+                    firstName = "Sara",
+                    lastName = "Mohammadi",
+                    address = "Isfahan, Iran",
+                    mobile = "09351234567"
+                )
+            )
+        ),
+        onBackClicked = {}
+    )
 }

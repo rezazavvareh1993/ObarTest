@@ -16,6 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import com.example.address.R
 import com.example.address.domain.model.AddressItemData
@@ -86,4 +89,19 @@ fun ItemInfoComponent(
             overflow = TextOverflow.Ellipsis
         )
     }
+}
+
+@PreviewFontScale
+@PreviewScreenSizes
+@PreviewLightDark
+@Composable
+fun AddressItemComponentPreview() {
+    AddressItemComponent(
+        data = AddressItemData(
+            firstName = "Ali",
+            lastName = "Rezaei",
+            address = "Tehran, Iran",
+            mobile = "09123456789"
+        )
+    )
 }
