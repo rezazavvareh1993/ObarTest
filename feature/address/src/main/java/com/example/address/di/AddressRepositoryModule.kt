@@ -13,5 +13,5 @@ import javax.inject.Singleton
 interface AddressRepositoryModule {
     @Singleton
     @Binds
-    fun bindAlbumRepository(impl: AddressRepositoryImpl): AddressRepository
+    fun bindAddressRepository(impl: AddressRepositoryImpl): AddressRepository
 }

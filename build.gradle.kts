@@ -10,10 +10,3 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.serialization) apply false
     alias(libs.plugins.ktLint)
 }
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    compilerOptions.freeCompilerArgs.addAll(
-        "-P",
-        "plugin:androidx.compose.compiler.plugins.kotlin:experimentalStrongSkipping=true",
-    )
-}

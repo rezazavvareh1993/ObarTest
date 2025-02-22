@@ -5,7 +5,7 @@ import com.example.address.domain.model.RegisterData
 import javax.inject.Inject
 
 class RegisterBodyMapper @Inject constructor() {
-    fun mapInputDataToRequestBody(data: RegisterData) : RegisterBody =
+    fun mapInputDataToRequestBody(data: RegisterData): RegisterBody =
         RegisterBody(
             first_name = data.firstName,
             last_name = data.lastName,

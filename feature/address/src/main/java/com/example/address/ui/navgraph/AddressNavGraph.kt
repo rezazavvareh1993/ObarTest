@@ -36,7 +36,7 @@ fun NavGraphBuilder.addressNavGraph(
             val viewModel = hiltViewModel<AddressesViewModel>()
             val addressesUiEvent = viewModel::onEvent
             val addressesState by viewModel.addressesState.collectAsStateWithLifecycle()
-            AddressesScreen (
+            AddressesScreen(
                 addressesUiEvent = addressesUiEvent,
                 addressesState = addressesState,
                 onBackClicked = {
