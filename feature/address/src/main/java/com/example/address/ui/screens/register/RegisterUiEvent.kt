@@ -14,4 +14,5 @@ sealed class RegisterUiEvent {
     data object HasErrorMessageDisplayed : RegisterUiEvent()
     data object HasRegisteredMessageDisplayed : RegisterUiEvent()
     data class OnLatLngChanged(val newLatLng: LatLng) : RegisterUiEvent()
+    data class OnErrorMassageChanged(val errorMessage: String): RegisterUiEvent()
 }

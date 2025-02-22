@@ -9,9 +9,8 @@ class GetAddressesUseCase @Inject constructor(private val repository: AddressRep
     suspend operator fun invoke(): AddressesResult =
         when (val response = repository.getAddresses()) {
             is GetAddressesNetworkState.Error -> AddressesResult(
-                errorMessage = response.message,
+                errorType = response.apiError,
                 hasError = true,
-                errorCode = response.errorCode
             )
 
             is GetAddressesNetworkState.Success -> AddressesResult(

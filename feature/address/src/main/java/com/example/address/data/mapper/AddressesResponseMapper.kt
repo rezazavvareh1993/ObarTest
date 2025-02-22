@@ -3,7 +3,7 @@ package com.example.address.data.mapper
 import com.example.address.data.model.AddressItem
 import com.example.address.domain.model.AddressItemData
 import com.example.address.domain.networkstate.GetAddressesNetworkState
-import retrofit2.HttpException
+import com.example.address.util.extensions.toApiError
 import javax.inject.Inject
 
 class AddressesResponseMapper @Inject constructor() {
@@ -16,11 +16,7 @@ class AddressesResponseMapper @Inject constructor() {
         )
 
     private fun handleFailure(error: Throwable): GetAddressesNetworkState {
-        val errorCode = if (error is HttpException) error.code() else -1
-        return GetAddressesNetworkState.Error(
-            message = error.message.toString(),
-            errorCode = errorCode
-        )
+        return GetAddressesNetworkState.Error(apiError = error.toApiError())
     }
 
     private fun handleOnSuccess(addresses: List<AddressItem>): GetAddressesNetworkState {

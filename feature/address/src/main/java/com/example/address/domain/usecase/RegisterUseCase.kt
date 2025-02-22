@@ -10,9 +10,8 @@ class RegisterUseCase @Inject constructor(private val repository: AddressReposit
     suspend operator fun invoke(registerData: RegisterData): RegisterResult =
         when (val response = repository.register(registerData)) {
             is RegisterNetworkState.Error -> RegisterResult(
-                errorMessage = response.message,
+                errorType = response.apiError,
                 hasError = true,
-                errorCode = response.errorCode
             )
 
             is RegisterNetworkState.Success -> RegisterResult(

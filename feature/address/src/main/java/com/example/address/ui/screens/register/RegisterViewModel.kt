@@ -37,8 +37,16 @@ class RegisterViewModel @Inject constructor(val registerUseCase: RegisterUseCase
             is RegisterUiEvent.OnGenderTypeChanged ->
                 mRegisterState.update { it.copy(genderType = event.newGenderType) }
 
+            is RegisterUiEvent.OnErrorMassageChanged ->
+                mRegisterState.update {
+                    it.copy(
+                        errorMessage = event.errorMessage,
+                        errorType = null
+                    )
+                }
+
             is RegisterUiEvent.HasErrorMessageDisplayed ->
-                mRegisterState.update { it.copy(errorMessage = "", errorCode = -1) }
+                mRegisterState.update { it.copy(errorMessage = "") }
 
             is RegisterUiEvent.HasRegisteredMessageDisplayed ->
                 mRegisterState.update { it.copy(hasRegistered = false) }
@@ -56,8 +64,7 @@ class RegisterViewModel @Inject constructor(val registerUseCase: RegisterUseCase
                 true -> mRegisterState.update {
                     it.copy(
                         isLoading = false,
-                        errorMessage = result.errorMessage,
-                        errorCode = result.errorCode
+                        errorType = result.errorType,
                     )
                 }
 

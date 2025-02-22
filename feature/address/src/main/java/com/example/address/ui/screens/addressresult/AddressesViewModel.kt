@@ -29,8 +29,16 @@ class AddressesViewModel @Inject constructor(val getAddressesUseCase: GetAddress
         when (event) {
             is AddressesUiEvent.OnPulledToRefreshData -> refreshData()
 
+            is AddressesUiEvent.OnErrorMassageChanged ->
+                mAddressesState.update {
+                    it.copy(
+                        errorMessage = event.errorMessage,
+                        errorType = null
+                    )
+                }
+
             is AddressesUiEvent.HasErrorMessageDisplayed ->
-                mAddressesState.update { it.copy(errorMessage = "", errorCode = -1) }
+                mAddressesState.update { it.copy(errorMessage = "") }
         }
     }
 
@@ -51,8 +59,7 @@ class AddressesViewModel @Inject constructor(val getAddressesUseCase: GetAddress
                     it.copy(
                         isLoading = false,
                         isRefreshing = false,
-                        errorMessage = result.errorMessage,
-                        errorCode = result.errorCode
+                        errorType = result.errorType,
                     )
                 }
 

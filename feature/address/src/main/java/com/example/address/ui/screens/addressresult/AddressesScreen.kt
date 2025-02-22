@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.address.R
 import com.example.address.ui.screens.addressresult.component.AddressItemComponent
+import com.example.address.util.handleErrorMessages
 import com.example.ui.component.ObarToolbar
 import com.example.ui.component.ShowToast
 
@@ -36,8 +37,12 @@ fun AddressesScreen(
     val context = LocalContext.current
 
     if (addressesState.errorMessage.isNotEmpty()) {
-        ShowToast(context, "${addressesState.errorMessage} ${addressesState.errorCode}")
+        ShowToast(context, addressesState.errorMessage)
         addressesUiEvent(AddressesUiEvent.HasErrorMessageDisplayed)
+    }
+
+    if (addressesState.errorType != null) {
+        addressesUiEvent(AddressesUiEvent.OnErrorMassageChanged(handleErrorMessages(addressesState.errorType)))
     }
 
     val lazyListState = rememberLazyListState()

@@ -1,10 +1,11 @@
 package com.example.address.ui.screens.register
 
+import com.example.address.util.ApiError
 import com.google.android.gms.maps.model.LatLng
 
 data class RegisterState(
     val errorMessage: String = "",
-    val errorCode: Int = -1,
+    val errorType: ApiError? = null,
     val isShowErrorMessage: Boolean = false,
     val isLoading: Boolean = false,
     val firstNameInput: String = "",

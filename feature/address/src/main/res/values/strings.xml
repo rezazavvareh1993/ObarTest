@@ -17,8 +17,10 @@
     <string name="last_name_title">نام خانوادگی:</string>
     <string name="address_title">آدرس:</string>
     <string name="mobile_title">موبایل:</string>
-    <string name="wrong_input_data_error">اطلاعات رو به درستی وارد کنید.</string>
     <string name="connection_error">اتصال خود را چک کنید.</string>
+    <string name="unknown_error">مشکلی پیش آمده است. لطفاً دوباره تلاش کنید</string>
+    <string name="internal_server_error">مشکلی در سرور رخ داده است. لطفاً بعداً امتحان کنید.</string>
+    <string name="bad_request_error">مشکلی پیش آمده است.اطلاعات رو به درستی وارد کنید.</string>
     <string name="mobile_number_wrong_error">شماره موبایل معتبر نیست.</string>
     <string name="selected_location">لوکیشن انتخاب شده</string>
     <string name="lat_lng_detail">Latitude: %s, Longitude: %s</string>

@@ -27,6 +27,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.address.R
 import com.example.address.domain.model.RegisterData
+import com.example.address.ui.screens.addressresult.AddressesUiEvent
+import com.example.address.util.handleErrorMessages
 import com.example.ui.component.ObarToolbar
 import com.example.ui.component.ShowToast
 import com.google.android.gms.maps.model.CameraPosition
@@ -49,7 +51,7 @@ fun RegisterScreen(
     val context = LocalContext.current
 
     if (registerState.hasRegistered) {
-        ShowToast(context, "Registered")
+        ShowToast(context, stringResource(R.string.registered))
         registerUiEvent(RegisterUiEvent.HasRegisteredMessageDisplayed)
     }
 
@@ -58,8 +60,12 @@ fun RegisterScreen(
     }
 
     if (registerState.errorMessage.isNotEmpty()) {
-        ShowToast(context, "${registerState.errorMessage} ${registerState.errorCode}")
+        ShowToast(context, registerState.errorMessage)
         registerUiEvent(RegisterUiEvent.HasErrorMessageDisplayed)
+    }
+
+    if (registerState.errorType != null) {
+        registerUiEvent(RegisterUiEvent.OnErrorMassageChanged(handleErrorMessages(registerState.errorType)))
     }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
