@@ -22,6 +22,7 @@
     <string name="internal_server_error">مشکلی در سرور رخ داده است. لطفاً بعداً امتحان کنید.</string>
     <string name="bad_request_error">مشکلی پیش آمده است.اطلاعات رو به درستی وارد کنید.</string>
     <string name="mobile_number_wrong_error">شماره موبایل معتبر نیست.</string>
+    <string name="phone_number_wrong_error">شماره تلفن معتبر نیست.</string>
     <string name="selected_location">لوکیشن انتخاب شده</string>
     <string name="lat_lng_detail">Latitude: %s, Longitude: %s</string>
 </resources>

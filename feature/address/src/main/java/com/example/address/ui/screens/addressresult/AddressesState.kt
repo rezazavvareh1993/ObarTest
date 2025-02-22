@@ -8,6 +8,6 @@ data class AddressesState(
     val errorType: ApiError? = null,
     val isShowErrorMessage: Boolean = false,
     val isLoading: Boolean = false,
-    val isRefreshing: Boolean = true,
+    val isRefreshing: Boolean = false,
     val addressesData: List<AddressItemData> = emptyList(),
 )

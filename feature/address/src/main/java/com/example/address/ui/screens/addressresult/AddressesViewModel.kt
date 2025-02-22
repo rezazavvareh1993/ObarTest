@@ -14,8 +14,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddressesViewModel @Inject constructor(val getAddressesUseCase: GetAddressesUseCase) :
-    ViewModel() {
+class AddressesViewModel @Inject constructor(
+    private val getAddressesUseCase: GetAddressesUseCase
+) : ViewModel() {
     private var mAddressesState = MutableStateFlow(AddressesState(isLoading = true))
     val addressesState: StateFlow<AddressesState> = mAddressesState.onStart {
         getAddresses()

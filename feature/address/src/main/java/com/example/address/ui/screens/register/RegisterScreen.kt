@@ -14,6 +14,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -24,10 +25,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.address.R
 import com.example.address.domain.model.RegisterData
-import com.example.address.ui.screens.addressresult.AddressesUiEvent
 import com.example.address.util.handleErrorMessages
 import com.example.ui.component.ObarToolbar
 import com.example.ui.component.ShowToast
@@ -92,7 +93,8 @@ fun RegisterScreen(
                     registerUiEvent(RegisterUiEvent.OnFirstNameChanged(it))
                 },
                 label = { Text(stringResource(R.string.first_name)) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
             )
 
             OutlinedTextField(
@@ -101,27 +103,56 @@ fun RegisterScreen(
                     registerUiEvent(RegisterUiEvent.OnLastNameChanged(it))
                 },
                 label = { Text(stringResource(R.string.last_name)) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
             )
 
             OutlinedTextField(
-                value = registerState.mobileInput,
+                value = registerState.mobileNumberInfo.mobileNumber,
                 onValueChange = {
                     registerUiEvent(RegisterUiEvent.OnMobileChanged(it))
                 },
                 label = { Text(stringResource(R.string.mobile)) },
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
-                modifier = Modifier.fillMaxWidth()
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                modifier = Modifier.fillMaxWidth(),
+                isError = registerState.mobileNumberInfo.mobileValidation.isShowErrorMessage,
+                singleLine = true,
+                supportingText = if (registerState.mobileNumberInfo.mobileValidation.isShowErrorMessage) {
+                    {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Right,
+                            text = stringResource(id = R.string.mobile_number_wrong_error),
+                            color = MaterialTheme.colorScheme.error,
+                        )
+                    }
+                } else {
+                    null
+                }
             )
 
             OutlinedTextField(
-                value = registerState.phoneNumberInput,
+                value = registerState.phoneNumberInput.phoneNumber,
                 onValueChange = {
                     registerUiEvent(RegisterUiEvent.OnPhoneNumberChanged(it))
                 },
                 label = { Text(stringResource(R.string.phone_number)) },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                isError = registerState.phoneNumberInput.phoneNumberValidation.isShowErrorMessage,
+                supportingText = if (registerState.phoneNumberInput.phoneNumberValidation.isShowErrorMessage) {
+                    {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Right,
+                            text = stringResource(id = R.string.phone_number_wrong_error),
+                            color = MaterialTheme.colorScheme.error,
+                        )
+                    }
+                } else {
+                    null
+                }
             )
 
             OutlinedTextField(
@@ -130,7 +161,8 @@ fun RegisterScreen(
                     registerUiEvent(RegisterUiEvent.OnAddressChanged(it))
                 },
                 label = { Text(stringResource(R.string.address)) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                maxLines = 2
             )
 
             Row(
@@ -162,6 +194,7 @@ fun RegisterScreen(
                     content = {
                         Text(stringResource(R.string.register))
                     },
+                    enabled = checkValidationInputs(registerState),
                     onClick = {
                         registerUiEvent(
                             RegisterUiEvent.OnRegisterClicked(
@@ -169,8 +202,8 @@ fun RegisterScreen(
                                     firstName = registerState.firstNameInput,
                                     lastName = registerState.lastNameInput,
                                     address = registerState.addressInput,
-                                    mobileNumber = registerState.mobileInput,
-                                    phoneNumber = registerState.phoneNumberInput,
+                                    mobileNumber = registerState.mobileNumberInfo.mobileNumber,
+                                    phoneNumber = registerState.phoneNumberInput.phoneNumber,
                                     lat = registerState.locationSelected.latitude,
                                     lng = registerState.locationSelected.longitude,
                                     gender = registerState.genderType
@@ -211,3 +244,8 @@ fun RegisterScreen(
         }
     }
 }
+
+private fun checkValidationInputs(registerState: RegisterState): Boolean =
+    registerState.firstNameInput.isNotEmpty() && registerState.lastNameInput.isNotEmpty() &&
+            registerState.addressInput.isNotEmpty() && registerState.mobileNumberInfo.mobileValidation.isValidMobileNumber &&
+            registerState.phoneNumberInput.phoneNumberValidation.isValidPhoneNumber

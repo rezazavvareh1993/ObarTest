@@ -1,8 +1,11 @@
 package com.example.address.ui.screens.register
 
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.address.domain.model.RegisterData
+import com.example.address.domain.usecase.CheckValidationMobileNumberUseCase
+import com.example.address.domain.usecase.CheckValidationPhoneNumberUseCase
 import com.example.address.domain.usecase.RegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +15,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(val registerUseCase: RegisterUseCase) : ViewModel() {
+class RegisterViewModel @Inject constructor(
+    private val registerUseCase: RegisterUseCase,
+    private val checkValidationMobileNumberUseCase: CheckValidationMobileNumberUseCase,
+    private val checkValidationPhoneNumberUseCase: CheckValidationPhoneNumberUseCase
+) : ViewModel() {
     private var mRegisterState = MutableStateFlow(RegisterState(isLoading = false))
     val registerState: StateFlow<RegisterState> = mRegisterState
 
@@ -26,13 +33,14 @@ class RegisterViewModel @Inject constructor(val registerUseCase: RegisterUseCase
                 mRegisterState.update { it.copy(lastNameInput = event.newLastName) }
 
             is RegisterUiEvent.OnAddressChanged ->
-                mRegisterState.update { it.copy(addressInput = event.newAddress) }
+                if (event.newAddress.length <= 100)
+                    mRegisterState.update { it.copy(addressInput = event.newAddress) }
 
             is RegisterUiEvent.OnMobileChanged ->
-                mRegisterState.update { it.copy(mobileInput = event.newMobile) }
+                updateMobileNumber(event.newMobile)
 
             is RegisterUiEvent.OnPhoneNumberChanged ->
-                mRegisterState.update { it.copy(phoneNumberInput = event.newPhoneNumber) }
+                updatePhoneNumber(event.newPhoneNumber)
 
             is RegisterUiEvent.OnGenderTypeChanged ->
                 mRegisterState.update { it.copy(genderType = event.newGenderType) }
@@ -70,6 +78,40 @@ class RegisterViewModel @Inject constructor(val registerUseCase: RegisterUseCase
 
                 false -> mRegisterState.update {
                     it.copy(hasRegistered = result.hasRegistered, isLoading = false)
+                }
+            }
+        }
+    }
+
+    private fun updateMobileNumber(mobileNumber: String) {
+        viewModelScope.launch {
+            if (mobileNumber.length <= 11 && mobileNumber.isDigitsOnly()) {
+                val validationOfMobileNumber = checkValidationMobileNumberUseCase(mobileNumber)
+                mRegisterState.update {
+                    it.copy(
+                        mobileNumberInfo =
+                        MobileInputInfo(
+                            mobileNumber = mobileNumber,
+                            mobileValidation = validationOfMobileNumber,
+                        ),
+                    )
+                }
+            }
+        }
+    }
+
+    private fun updatePhoneNumber(phoneNumber: String) {
+        viewModelScope.launch {
+            if (phoneNumber.length <= 11 && phoneNumber.isDigitsOnly()) {
+                val validationOfPhoneNumber = checkValidationPhoneNumberUseCase(phoneNumber)
+                mRegisterState.update {
+                    it.copy(
+                        phoneNumberInput =
+                        PhoneInputInfo(
+                            phoneNumber = phoneNumber,
+                            phoneNumberValidation = validationOfPhoneNumber,
+                        ),
+                    )
                 }
             }
         }

@@ -14,11 +14,11 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 data class AddressRepositoryImpl @Inject constructor(
-    val addressApiServices: AddressApiServices,
-    val registerBodyMapper: RegisterBodyMapper,
-    val registerResponseMapper: RegisterResponseMapper,
-    val addressesResponseMapper: AddressesResponseMapper,
-    val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val addressApiServices: AddressApiServices,
+    private val registerBodyMapper: RegisterBodyMapper,
+    private val registerResponseMapper: RegisterResponseMapper,
+    private val addressesResponseMapper: AddressesResponseMapper,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AddressRepository {
     override suspend fun register(registerData: RegisterData): RegisterNetworkState =
         withContext(dispatcher) {
